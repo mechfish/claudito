@@ -116,6 +116,7 @@ exec docker run \
     --cap-add=SETGID \
     --cap-add=DAC_OVERRIDE \
     --cap-add=NET_BIND_SERVICE \
+    -v "$CURRENT_DIR/creds:/mnt/aws-creds" \
     -v "$CURRENT_DIR:$WORK_DIR" \
     -v "$VOLUME_NAME:$CONTAINER_HOME_DIR" \
     "${ADDITIONAL_VOLUMES[@]}" \

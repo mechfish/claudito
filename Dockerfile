@@ -77,7 +77,8 @@ RUN mkdir -p /home/claudito/.claude && \
 
 # Copy scripts
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY aws-credential-process.sh /usr/local/bin/aws-credential-process.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/aws-credential-process.sh
 
 # Switch to unprivileged user
 USER claudito
