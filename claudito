@@ -7,7 +7,7 @@ set -e
 
 # Configuration
 VERSION="0.1"
-IMAGE_NAME="micahflee/claudito:latest"
+CLAUDITO_IMAGE_NAME="${CLAUDITO_IMAGE_NAME:-micahflee/claudito:latest}"
 WORK_DIR="/src"
 CONTAINER_HOME_DIR="/home/claudito"
 VOLUME_NAME="claudito-home"
@@ -95,9 +95,11 @@ if ! docker info &> /dev/null; then
     exit 1
 fi
 
-# Pull latest image
-info "Pulling latest $IMAGE_NAME image..."
-docker pull "$IMAGE_NAME"
+# Pull latest image if tagged 'latest'
+if echo $CLAUDITO_IMAGE_NAME | grep -q ':latest$'; then
+    info "Pulling latest $CLAUDITO_IMAGE_NAME image..."
+    docker pull "$CLAUDITO_IMAGE_NAME"
+fi
 
 # Get the current directory
 CURRENT_DIR="$(pwd)"
@@ -118,5 +120,5 @@ exec docker run \
     -v "$VOLUME_NAME:$CONTAINER_HOME_DIR" \
     "${ADDITIONAL_VOLUMES[@]}" \
     -w "$WORK_DIR" \
-    "$IMAGE_NAME" \
+    "$CLAUDITO_IMAGE_NAME" \
     "${CLAUDE_ARGS[@]}"
